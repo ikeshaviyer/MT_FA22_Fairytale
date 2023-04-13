@@ -1,19 +1,53 @@
 #include <Servo.h>
 
-Servo myservo;  // create servo object to control a servo
+Servo sadDuck;  // create servo object to control a servo
+Servo duckDoor;
+Servo duckHead;
 // twelve servo objects can be created on most boards
+
+const int playButtonPin = 8;
+int playButtonState =  0;
+const int killButtonPin = 7;
+int killButtonState =  0;
 
 int pos = 0;    // variable to store the servo position
 
 void setup() {
-  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+  sadDuck.attach(9);  // attaches the servo on pin 9 to the servo object
+  duckDoor.attach(10);
+  duckHead.attach(3);
+
+  pinMode(playButtonPin, INPUT);
+  pinMode(killButtonPin, INPUT);
 }
 
 void loop() {
+  playButtonState = digitalRead(playButtonPin);
+  killButtonState = digitalRead(killButtonPin);
+
+  if (playButtonState == HIGH){
+    sadDuck.write(180);
+  }
+  if (playButtonState == LOW){
+    sadDuck.write(0);
+  }
+
+  if (killButtonState == HIGH){
+    duckDoor.write(10);
+    delay(100);
+    duckHead.write(140);
+  }
+  if (killButtonState == LOW){
+    duckDoor.write(165);
+    duckHead.write(90);
+  }
   //for sad duck 0 is left, 180 is right.
-  //for duck 0 is open, 170 is closed.
+  //for duck 0 is open, 165 is closed.
   //for king duck 90 is up, 140 is down.
-  myservo.write(0);
+  // sadDuck.write(0);
+  // sadDuck.write(180);
+  // duckHead.write(90)
+  // duckHead.write(140)
   // for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
   //   // in steps of 1 degree
   //   myservo.write(pos);              // tell servo to go to position in variable 'pos'
